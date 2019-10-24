@@ -1,9 +1,9 @@
 package pl.vanthus.hw6.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.vanthus.hw6.model.Movie;
 import pl.vanthus.hw6.service.MovieService;
 
@@ -21,7 +21,17 @@ public class MovieApi {
     }
 
     @GetMapping
-    public List<Movie> getMovies(){
-        return movieService.getSampleMovieList();
+    public ResponseEntity<List<Movie>> getMovies(){
+        return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity addMovie(@RequestBody Movie movie){
+
+        if(movieService.addMovie(movie)){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
