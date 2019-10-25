@@ -1,9 +1,12 @@
 package pl.vanthus.hw6.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.vanthus.hw6.aspect.InfoAfterAddMovie;
 import pl.vanthus.hw6.model.Movie;
 import pl.vanthus.hw6.service.MovieService;
 
@@ -26,6 +29,7 @@ public class MovieApi {
     }
 
     @PostMapping
+    @InfoAfterAddMovie
     public ResponseEntity addMovie(@RequestBody Movie movie){
 
         if(movieService.addMovie(movie)){
